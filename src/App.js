@@ -33,6 +33,11 @@ const Button = styled(BasicButton)`
   border: none;
   color: ${props => props.theme === 'dark' ? '#000' : '#fff'};
   background-color: ${props => props.theme === 'dark' ? '#fff' : '#000'};
+  transform: scale(1);
+  transition: transform .05s ease-in-out;
+  &:active {
+    transform: scale(.95);
+  }
 `;
 
 export default App;
