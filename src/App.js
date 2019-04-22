@@ -5,10 +5,11 @@ import { useState } from "react";
 import BasicButton from './elements/buttons/basicButton';
 
 import useTheme from "./hooks/useTheme";
-// import useCount from './hooks/useCount';
+import useWindowResize from "./hooks/useWindowResize";
 
-const App = () => {  
+const App = () => {
   const { theme, toggleTheme } = useTheme();
+  const { width, height } = useWindowResize();
   const [ count, setCount ] = useState(0)
 
   const handleClick = (count, e) => {
@@ -18,13 +19,17 @@ const App = () => {
 
   return (
     <Container className={`App ${theme}`} theme={theme}>
+      <Params>Page width: {width}</Params>
+      <Params>Page height: {height}</Params>
       <Button
         type="button"
         label='Switch theme'
         onClick={(e) => handleClick(count, e)}
         theme={theme}
       />
-      <p>You changed your mind {count} times!</p>
+      {count > 0 &&
+        <p>You changed your mind {count} times!</p>
+      }
     </Container>
   );
 }
@@ -50,5 +55,9 @@ const Button = styled(BasicButton)`
     transform: scale(.95);
   }
 `;
+
+const Params = styled.h3`
+  margin: 0 0 5px 0;
+`
 
 export default App;
