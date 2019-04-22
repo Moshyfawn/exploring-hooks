@@ -1,29 +1,40 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useState } from "react";
 
 import BasicButton from './elements/buttons/basicButton';
 
 import useTheme from "./hooks/useTheme";
+// import useCount from './hooks/useCount';
 
 const App = () => {  
-    const { theme, toggleTheme } = useTheme();
-    return (
-      <Container className={`App ${theme}`} theme={theme}>
-        <Button
-          type="button"
-          label='Switch theme'
-          onClick={toggleTheme}
-          theme={theme}
-        />
-      </Container>
-    );
+  const { theme, toggleTheme } = useTheme();
+  const [ count, setCount ] = useState(0)
+
+  const handleClick = (count, e) => {
+    toggleTheme();
+    setCount(count + 1);
   }
+
+  return (
+    <Container className={`App ${theme}`} theme={theme}>
+      <Button
+        type="button"
+        label='Switch theme'
+        onClick={(e) => handleClick(count, e)}
+        theme={theme}
+      />
+      <p>You changed your mind {count} times!</p>
+    </Container>
+  );
+}
 
 const Container = styled.div`
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   background-color: ${props => props.theme === 'dark' ? '#000' : '#fff'};
   color: ${props => props.theme === 'dark' ? '#fff' : '#000'};
 `;
