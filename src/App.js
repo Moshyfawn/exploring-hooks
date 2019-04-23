@@ -1,20 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useState } from "react";
 
 import BasicButton from './elements/buttons/basicButton';
 
 import useTheme from "./hooks/useTheme";
 import useWindowResize from "./hooks/useWindowResize";
+import useCounter from "./hooks/useCounter";
 
 const App = () => {
   const { theme, toggleTheme } = useTheme();
   const { width, height } = useWindowResize();
-  const [ count, setCount ] = useState(0)
+  const { count, counter } = useCounter(0)
 
-  const handleClick = (count, e) => {
+  const handleClick = (count) => {
+    console.log(typeof(count))
     toggleTheme();
-    setCount(count + 1);
+    counter(count)
   }
 
   return (
@@ -24,12 +25,10 @@ const App = () => {
       <Button
         type="button"
         label='Switch theme'
-        onClick={(e) => handleClick(count, e)}
+        onClick={() => handleClick(count + 1)}
         theme={theme}
       />
-      {count > 0 &&
-        <p>You changed your mind {count} times!</p>
-      }
+        <Desc count={count}>You changed your mind {count} times!</Desc>
     </Container>
   );
 }
@@ -58,6 +57,10 @@ const Button = styled(BasicButton)`
 
 const Params = styled.h3`
   margin: 0 0 5px 0;
-`
+`;
+
+const Desc = styled.p`
+  visibility: ${props => props.count > 0 ? 'visible' : 'hidden'};
+`;
 
 export default App;
